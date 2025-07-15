@@ -1,0 +1,265 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  min-height: 700px;
+
+  height: 90%;
+  width: 100%;
+}
+
+.pesquisa-div {
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+.title-h1 {
+  font-size: 3.6rem;
+  font-weight: bold;
+}
+
+.title-h2 {
+  font-size: 3.1rem;
+  font-weight: 100;
+}
+.input-div {
+  display: flex;
+  gap: 10px;
+}
+.input-div button {
+  background-color: #ff8d23;
+  color: white;
+  font-size: 1.2rem;
+
+  height: 50px;
+  width: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.input-div button:hover {
+  background-color: rgb(187, 127, 15);
+}
+#pesquisa {
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid black;
+  padding: 15px;
+  font-size: 1.6rem;
+  width: 90%;
+}
+.scrool-area {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+  padding-right: 10px;
+}
+.clients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.btn-add {
+  height: 90px;
+  width: 90px;
+  color: white;
+  background-color: #ff8d23;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 2.6rem;
+  font-weight: bold;
+  box-shadow: 1px 1px 5px black;
+
+  margin-left: 85%;
+  margin-top: 2%;
+
+  transition-duration: 0.2s;
+}
+
+.btn-add:hover {
+  background-color: rgb(187, 127, 15);
+}
+
+.janela {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #03030360;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-divida {
+  width: 50%;
+  height: 80%;
+  min-width: 200px;
+  min-height: 200px;
+  background-color: white;
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form-divida div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+
+  height: 500px;
+  width: 900px;
+}
+
+.label {
+  font-size: 1.6rem;
+  display: block;
+  margin-right: 90%;
+}
+
+.input-form-divida {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  border: 1px solid rgba(48, 43, 43, 0.473);
+
+  min-width: 700px;
+  min-height: 60px;
+  border-radius: 20px;
+  background: rgb(235, 227, 227);
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-form {
+  height: 50px;
+  width: 100px;
+  color: white;
+  background-color: #ff8d23;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: bold;
+  box-shadow: 1px 1px 5px black;
+}
+
+.close-btn {
+  height: 70px;
+  width: 70px;
+  color: white;
+  background-color: red;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 1px;
+
+  margin-left: 85%;
+  margin-bottom: 100px;
+
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background-color: #800202;
+}
+@media (max-width: 1330px) {
+  .form-divida div {
+    width: 100%;
+  }
+
+  .form-divida form {
+    width: 100%;
+  }
+
+  .input-form-divida {
+    min-width: 300px;
+  }
+}
+@media (max-width: 698px) {
+  .pesquisa-div {
+    padding: 5%;
+  }
+
+  .title-h1 {
+    font-size: 3.1rem;
+  }
+
+  .title-h2 {
+    font-size: 2.5rem;
+  }
+
+  .btn-add {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+    margin-left: 75%;
+  }
+
+  .form-divida {
+    width: 70%;
+  }
+
+  .form-divida div {
+    width: 100%;
+  }
+
+  .input-form-divida {
+    min-width: 30px;
+  }
+
+  .close-btn {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 488px) {
+  .container {
+    max-width: 400px;
+    width: 100%;
+  }
+  .pesquisa-div {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .input-div {
+    flex-direction: column;
+  }
+
+  .scrool-area {
+    margin-top: 0;
+    padding-right: 0;
+  }
+
+  .title-h1 {
+    font-size: 1.9rem;
+    margin-right: 30px;
+  }
+  .title-h2 {
+    font-size: 1.3rem;
+  }
+  .btn-add {
+    margin-top: 2px;
+    margin-left: 70%;
+    margin-bottom: 20px;
+  }
+
+  .form-divida {
+    width: 90%;
+  }
+}

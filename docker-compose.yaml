@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=appPAdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Password123#@!
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  pendura-ai-api:
+    image: jorgeroniel07/pendura-ai-api:latest
+    container_name: pendura-ai-api
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/appPAdb
+      - SPRING_DATASOURCE_USER=postgres
+      - SPRING_DATASOURCE_PASSWORD=Password123#@!
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  cliente-pendura-ai:
+    image: jorgeroniel07/cliente-pendura-ai:latest
+    container_name: pendura-ai-cliente
+    ports:
+      - "80:80"
+    depends_on:
+      - pendura-ai-api
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
