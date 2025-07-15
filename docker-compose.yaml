@@ -25,6 +25,7 @@ services:
       - postgres
     networks:
       - app-network
+    restart: on-failure
 
   cliente-pendura-ai:
     image: jorgeroniel07/cliente-pendura-ai:latest
