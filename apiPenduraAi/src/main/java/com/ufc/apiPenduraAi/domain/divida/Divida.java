@@ -1,5 +1,6 @@
 package com.ufc.apiPenduraAi.domain.divida;
 
+import com.ufc.apiPenduraAi.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,8 +22,10 @@ public class Divida {
     private String cliente;
     @Column
     private String valor;
-    @Column
-    private Long user_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Divida(String cliente, String valor, Long user_id) {
         this.cliente = cliente;
