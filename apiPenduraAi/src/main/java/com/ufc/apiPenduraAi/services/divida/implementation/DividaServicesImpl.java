@@ -34,7 +34,7 @@ public class DividaServicesImpl implements DividaServices {
     }
 
     @Override
-    public void updadeValor(UpdateDividaDTO data, Long id) {
+    public void updadeValor(UpdateDividaDTO data, int id) {
         var divida = repository.findById(id).orElseThrow();
         divida.setValor(data.novo_valor());
         repository.save(divida);
@@ -42,7 +42,7 @@ public class DividaServicesImpl implements DividaServices {
     }
 
     @Override
-    public void quitarDivida(Long id) {
+    public void quitarDivida(int id) {
         repository.deleteById(id);
     }
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name="users_tb")
+@Table(name = "user_tb")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column
     private String nome;
     @Column
@@ -28,9 +28,6 @@ public class User {
     private String senha;
     @Column
     private UserRoles role;
-
-    @OneToMany(mappedBy = "users_tb")
-    private List<Divida> dividas;
 
     public User(String nome, String email, String senha){
         this.nome = nome;

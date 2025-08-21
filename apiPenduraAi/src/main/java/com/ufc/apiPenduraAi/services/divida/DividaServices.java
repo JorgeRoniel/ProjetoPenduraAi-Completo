@@ -10,6 +10,6 @@ public interface DividaServices {
 
     void addDivida(CreateDividaDTO createDividaDTO);
     List<ReturnDividasDTO> findDivida(String nome);
-    void updadeValor(UpdateDividaDTO updateDividaDTO, Long id);
-    void quitarDivida(Long id);
+    void updadeValor(UpdateDividaDTO updateDividaDTO, int id);
+    void quitarDivida(int id);
 }

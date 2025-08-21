@@ -34,13 +34,13 @@ public class DividaController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity updateDivida(@PathVariable Long id, @RequestBody UpdateDividaDTO data){
+    public ResponseEntity updateDivida(@PathVariable int id, @RequestBody UpdateDividaDTO data){
         services.updadeValor(data, id);
         return ResponseEntity.ok("Valor Atualizado!");
     }
 
     @DeleteMapping("/{id}/quitar")
-    public ResponseEntity quitarDivida(@PathVariable Long id){
+    public ResponseEntity quitarDivida(@PathVariable int id){
         services.quitarDivida(id);
         return ResponseEntity.ok("Quitado!");
     }

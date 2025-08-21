@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DividaRepository extends JpaRepository<Divida, Long> {
+public interface DividaRepository extends JpaRepository<Divida, Integer> {
     List<ReturnDividasDTO> findAllByClienteContaining(String cliente);
 }

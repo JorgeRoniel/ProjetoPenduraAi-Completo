@@ -1,4 +1,6 @@
 package com.ufc.apiPenduraAi.dtos.user;
 
-public record CreateUserDTO(String nome, String email, String senha) {
+import com.ufc.apiPenduraAi.domain.user.UserRoles;
+
+public record CreateUserDTO(String nome, String email, String senha, UserRoles role) {
 }
