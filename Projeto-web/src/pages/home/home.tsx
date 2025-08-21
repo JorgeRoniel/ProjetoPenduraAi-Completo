@@ -3,6 +3,7 @@ import { Modal } from "../../components/window_modal/modal";
 import "./home.css";
 import { BlockUser } from "../../components/bloco-user/bloco-user";
 import api from "../../services/api";
+import { Navbar } from "../../components/navbar/navbar";
 
 export function Home() {
   const [openModal, setOpenModal] = useState(false);
@@ -62,6 +63,7 @@ export function Home() {
 
   return (
     <>
+      <Navbar />
       <div className="container">
         <div className="pesquisa-div">
           <h1 className="title-h1">Olá, seja bem vindo!</h1>
