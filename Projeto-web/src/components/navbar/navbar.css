@@ -22,7 +22,6 @@
   width: 130px;
   border-radius: 8px;
   cursor: pointer;
-  display: none;
 }
 
 @media (max-width: 698px) {

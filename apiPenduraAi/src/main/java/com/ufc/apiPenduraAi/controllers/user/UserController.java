@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class UserController {
     public ResponseEntity createUser(@RequestBody CreateUserDTO data){
         User user = services.createUser(data);
         if(user != null){
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado!");
         }
         return ResponseEntity.internalServerError().body("Erro ao criar user");
     }

@@ -42,7 +42,7 @@ export function Login() {
               Senha:
             </label>
             <input
-              type="text"
+              type="password"
               name="pass"
               className="input-login"
               placeholder="Digite sua senha..."

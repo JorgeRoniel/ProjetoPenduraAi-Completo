@@ -6,7 +6,11 @@ interface PrivateRouteProps {
 }
 
 export function PrivateRoute({ component }: PrivateRouteProps) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
