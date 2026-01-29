@@ -3,6 +3,8 @@ package com.ufc.apiPenduraAi.services.user.implementation;
 import com.ufc.apiPenduraAi.domain.user.User;
 import com.ufc.apiPenduraAi.dtos.user.CreateUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.LoginUserDTO;
+import com.ufc.apiPenduraAi.exceptions.user.EmailOrPassNull;
+import com.ufc.apiPenduraAi.exceptions.user.NotFoundUser;
 import com.ufc.apiPenduraAi.repositories.user.UserRepository;
 import com.ufc.apiPenduraAi.services.user.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class UserServicesImpl implements UserServices {
     public User authUser(LoginUserDTO data) {
 
         if(data.email() == null || data.senha() == null){
-            return null;
+            throw new EmailOrPassNull("Email ou Senha Invalidos!");
         }
 
         User u = repository.findByEmail(data.email());
@@ -38,7 +40,7 @@ public class UserServicesImpl implements UserServices {
                 return null;
             }
         }
-        return null;
+        throw new NotFoundUser("User Not Found!");
     }
 
     @Override
