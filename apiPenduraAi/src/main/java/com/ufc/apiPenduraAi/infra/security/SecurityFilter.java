@@ -37,6 +37,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/api/user/login")
+                || path.startsWith("/api/user/register")
+                || request.getMethod().equalsIgnoreCase("OPTIONS");
+    }
+
     private String recoveryToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null){

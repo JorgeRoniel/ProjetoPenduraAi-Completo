@@ -32,7 +32,7 @@ public class UserServicesImpl implements UserServices {
 
 
     @Override
-    public User createUser(CreateUserDTO data) {
+    public User createUser(CreateUserDTO data) throws RuntimeException {
         String pass = encoder.encode(data.senha());
         User u = new User(data.nome(), data.email(), pass, data.role());
         return repository.save(u);
