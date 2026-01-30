@@ -4,12 +4,12 @@ import com.ufc.apiPenduraAi.domain.divida.Divida;
 import com.ufc.apiPenduraAi.dtos.divida.CreateDividaDTO;
 import com.ufc.apiPenduraAi.dtos.divida.ReturnDividasDTO;
 import com.ufc.apiPenduraAi.dtos.divida.UpdateDividaDTO;
+import com.ufc.apiPenduraAi.exceptions.divida.NotFoundDivida;
 import com.ufc.apiPenduraAi.repositories.divida.DividaRepository;
 import com.ufc.apiPenduraAi.services.divida.DividaServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,14 +30,18 @@ public class DividaServicesImpl implements DividaServices {
         if(!devedores.isEmpty()){
             return devedores;
         }
-        return null;
+        throw new NotFoundDivida("Dívida Não Encontrada!");
     }
 
     @Override
     public void updadeValor(UpdateDividaDTO data, int id) {
-        var divida = repository.findById(id).orElseThrow();
-        divida.setValor(data.novo_valor());
-        repository.save(divida);
+        try {
+            var divida = repository.findById(id).orElseThrow();
+            divida.setValor(data.novo_valor());
+            repository.save(divida);
+        } catch (NotFoundDivida e){
+            System.err.println(e.getMessage());
+        }
 
     }
 

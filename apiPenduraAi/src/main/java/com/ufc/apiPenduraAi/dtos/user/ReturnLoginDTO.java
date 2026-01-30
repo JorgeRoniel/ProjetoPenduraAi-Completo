@@ -1,4 +1,4 @@
 package com.ufc.apiPenduraAi.dtos.user;
 
-public record ReturnLoginDTO(int id, String nome) {
+public record ReturnLoginDTO(String token, int id, String email, String nome, String role) {
 }

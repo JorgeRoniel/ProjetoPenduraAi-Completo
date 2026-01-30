@@ -8,12 +8,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Password123#@!
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     networks:
       - app-network
 
   pendura-ai-api:
-    image: jorgeroniel07/pendura-ai-api:latest
+    image: jorgeroniel07/pendura-ai-server:0.0.1
     container_name: pendura-ai-api
     ports:
       - "8080:8080"
@@ -27,8 +27,8 @@ services:
       - app-network
     restart: on-failure
 
-  cliente-pendura-ai:
-    image: jorgeroniel07/cliente-pendura-ai:latest
+  pendura-ai-client:
+    image: jorgeroniel07/pendura-ai-client:0.0.2
     container_name: pendura-ai-cliente
     ports:
       - "80:80"

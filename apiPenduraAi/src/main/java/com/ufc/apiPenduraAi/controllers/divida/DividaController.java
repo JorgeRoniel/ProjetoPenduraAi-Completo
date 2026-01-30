@@ -29,7 +29,6 @@ public class DividaController {
     @GetMapping
     public ResponseEntity<List<ReturnDividasDTO>> pesquisarDivida(@RequestParam(name = "cliente") String data){
         List<ReturnDividasDTO> response = services.findDivida(data);
-        if(response == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(response);
     }
 
