@@ -13,11 +13,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private ResponseEntity<String> runTimesHandlers(RuntimeException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
     @ExceptionHandler(NotFoundDivida.class)
     private ResponseEntity<String> dividaNotFoundHandler(NotFoundDivida exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
+    @ExceptionHandler(AuthenticationException.class)
     private ResponseEntity<String> loginErrorHandler(AuthenticationException authenticationException){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro na Login!");
     }
