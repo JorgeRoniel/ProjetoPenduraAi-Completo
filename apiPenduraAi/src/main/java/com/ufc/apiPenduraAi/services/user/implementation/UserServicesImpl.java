@@ -3,13 +3,19 @@ package com.ufc.apiPenduraAi.services.user.implementation;
 import com.ufc.apiPenduraAi.domain.user.User;
 import com.ufc.apiPenduraAi.dtos.user.CreateUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.LoginUserDTO;
+import com.ufc.apiPenduraAi.dtos.user.ReturnLoginDTO;
 import com.ufc.apiPenduraAi.exceptions.user.EmailOrPassNull;
 import com.ufc.apiPenduraAi.exceptions.user.NotFoundUser;
 import com.ufc.apiPenduraAi.repositories.user.UserRepository;
+import com.ufc.apiPenduraAi.services.token.TokenService;
 import com.ufc.apiPenduraAi.services.user.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.beans.Encoder;
 import java.util.List;
 
 @Service
@@ -17,30 +23,28 @@ public class UserServicesImpl implements UserServices {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private TokenService tokenService;
 
 
     @Override
     public User createUser(CreateUserDTO data) {
-        User u = new User(data.nome(), data.email(), data.senha(), data.role());
+        String pass = encoder.encode(data.senha());
+        User u = new User(data.nome(), data.email(), pass, data.role());
         return repository.save(u);
     }
 
-    @Override
-    public User authUser(LoginUserDTO data) {
-
-        if(data.email() == null || data.senha() == null){
-            throw new EmailOrPassNull("Email ou Senha Invalidos!");
-        }
-
-        User u = repository.findByEmail(data.email());
-        if(u != null){
-            if(u.getEmail().equals(data.email()) && u.getSenha().equals(data.senha())){
-                return u;
-            }else{
-                return null;
-            }
-        }
-        throw new NotFoundUser("User Not Found!");
+   @Override
+    public ReturnLoginDTO authUser(LoginUserDTO data) {
+        var emailpass = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+        var auth = authenticationManager.authenticate(emailpass);
+        User user = (User) auth.getPrincipal();
+        String token = tokenService.createToken(user);
+        return new ReturnLoginDTO(token, user.getId(), user.getEmail(), user.getNome(), user.getRole().toString());
     }
 
     @Override
