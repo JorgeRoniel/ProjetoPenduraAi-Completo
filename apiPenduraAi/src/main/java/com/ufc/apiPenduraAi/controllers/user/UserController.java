@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserServices services;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity createUser(@RequestBody CreateUserDTO data){
         User user = services.createUser(data);
         if(user != null){
@@ -30,13 +30,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ReturnLoginDTO> login(@RequestBody LoginUserDTO data){
-        User user = services.authUser(data);
-
-        if(user == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        ReturnLoginDTO response = new ReturnLoginDTO(user.getId(), user.getNome());
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(services.authUser(data));
 
     }
 

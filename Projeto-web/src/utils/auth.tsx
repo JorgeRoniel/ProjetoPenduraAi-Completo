@@ -9,7 +9,17 @@ import api from "../services/api";
 
 interface User {
   id: number;
+  email: string;
   nome: string;
+  role: string;
+}
+
+interface ReturnLogin {
+  token: string;
+  id: number;
+  email: string;
+  nome: string;
+  role: string;
 }
 
 interface AuthContextType {
@@ -35,10 +45,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, senha: string): Promise<Boolean> => {
     try {
-      const res = await api.post<User>("api/user/login", { email, senha });
+      const res = await api.post<ReturnLogin>("api/user/login", {
+        email,
+        senha,
+      });
       const data = res.data;
-      setUser(data);
-      localStorage.setItem("user", JSON.stringify(data));
+
+      // Guardar token no localStorage
+      localStorage.setItem("token", data.token);
+
+      // Guardar dados do usuário
+      const userData: User = {
+        id: data.id,
+        nome: data.nome,
+        email: data.email,
+        role: data.role,
+      };
+
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+
       return true;
     } catch (err) {
       console.error("Erro no login: ", err);
@@ -49,6 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (
