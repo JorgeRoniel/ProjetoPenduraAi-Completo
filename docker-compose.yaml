@@ -13,7 +13,7 @@ services:
       - app-network
 
   pendura-ai-api:
-    image: jorgeroniel07/pendura-ai-server:0.0.1
+    image: jorgeroniel07/pendura-ai-server:0.0.3
     container_name: pendura-ai-api
     ports:
       - "8080:8080"
@@ -28,7 +28,7 @@ services:
     restart: on-failure
 
   pendura-ai-client:
-    image: jorgeroniel07/pendura-ai-client:0.0.2
+    image: jorgeroniel07/pendura-ai-client:0.0.3
     container_name: pendura-ai-cliente
     ports:
       - "80:80"

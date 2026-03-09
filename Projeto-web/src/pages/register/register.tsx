@@ -13,7 +13,12 @@ export function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await api.post("api/user", { nome, email, senha, role });
+    const response = await api.post("api/user/register", {
+      nome,
+      email,
+      senha,
+      role,
+    });
     const message = response.data;
     alert(message);
     navigate("/login");
