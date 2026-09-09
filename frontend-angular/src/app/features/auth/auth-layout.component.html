@@ -1,0 +1,33 @@
+<main class="auth-page">
+  <div class="auth-brand-panel">
+    <a class="brand" routerLink="/" aria-label="Pendura Aí - início">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span class="brand-name">Pendura <span>Aí</span></span>
+    </a>
+
+    <div class="brand-message">
+      <span class="eyebrow">Organização que cabe na rotina</span>
+      <h1>Mais clareza para cuidar do que importa.</h1>
+      <p>Registre, acompanhe e resolva suas pendências de um jeito simples.</p>
+    </div>
+
+    <span class="brand-footer">Feito para simplificar</span>
+  </div>
+
+  <section class="auth-content" aria-labelledby="auth-title">
+    <div class="auth-card">
+      <div class="auth-heading">
+        <span class="eyebrow">Pendura Aí</span>
+        <h2 id="auth-title">{{ title() }}</h2>
+        <p>{{ description() }}</p>
+      </div>
+
+      <ng-content />
+
+      <p class="auth-alternate">
+        {{ alternateText() }}
+        <a [routerLink]="alternateLink()">{{ alternateLabel() }}</a>
+      </p>
+    </div>
+  </section>
+</main>
