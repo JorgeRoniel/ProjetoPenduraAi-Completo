@@ -2,45 +2,48 @@ package com.ufc.apiPenduraAi.controllers.divida;
 
 import com.ufc.apiPenduraAi.dtos.divida.CreateDividaDTO;
 import com.ufc.apiPenduraAi.dtos.divida.ReturnDividasDTO;
-import com.ufc.apiPenduraAi.dtos.divida.SearchDevedor;
 import com.ufc.apiPenduraAi.dtos.divida.UpdateDividaDTO;
 import com.ufc.apiPenduraAi.services.divida.DividaServices;
-import jakarta.websocket.server.PathParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/divida")
+@RequiredArgsConstructor
 public class DividaController {
 
-    @Autowired
-    private DividaServices services;
+    private final DividaServices services;
 
     @PostMapping
-    public ResponseEntity createDivida(@RequestBody CreateDividaDTO data){
+    public ResponseEntity<String> createDivida(@RequestBody @Valid CreateDividaDTO data) {
         services.addDivida(data);
-        return ResponseEntity.status(HttpStatusCode.valueOf(201)).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Dívida cadastrada com sucesso!");
     }
 
     @GetMapping
-    public ResponseEntity<List<ReturnDividasDTO>> pesquisarDivida(@RequestParam(name = "cliente") String data){
-        List<ReturnDividasDTO> response = services.findDivida(data);
+    public ResponseEntity<Page<ReturnDividasDTO>> pesquisarDivida(
+            @RequestParam(name = "cliente", required = false, defaultValue = "") String cliente,
+            @PageableDefault(size = 10, sort = "cliente") Pageable pageable
+    ) {
+        Page<ReturnDividasDTO> response = services.findDivida(cliente, pageable);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity updateDivida(@PathVariable int id, @RequestBody UpdateDividaDTO data){
-        services.updadeValor(data, id);
-        return ResponseEntity.ok("Valor Atualizado!");
+    public ResponseEntity<String> updateDivida(@PathVariable Long id, @RequestBody @Valid UpdateDividaDTO data) {
+        services.updateValor(data, id);
+        return ResponseEntity.ok("Valor atualizado com sucesso!");
     }
 
     @DeleteMapping("/{id}/quitar")
-    public ResponseEntity quitarDivida(@PathVariable int id){
+    public ResponseEntity<String> quitarDivida(@PathVariable Long id) {
         services.quitarDivida(id);
-        return ResponseEntity.ok("Quitado!");
+        return ResponseEntity.ok("Dívida quitada com sucesso!");
     }
 }

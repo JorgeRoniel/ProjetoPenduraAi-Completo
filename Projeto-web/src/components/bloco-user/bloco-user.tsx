@@ -1,48 +1,46 @@
 import { useState } from "react";
 import "./bloco-user.css";
 import { Modal } from "../window_modal/modal";
-import api from "../../services/api";
 
 interface UserProps {
   cliente: string;
   valor: string;
-  index: number;
-  onUpdate: () => void;
-  onDelete: (del: number) => void;
+  id: number;
+  onUpdate: (id: number, novo_valor: string) => Promise<void> | void;
+  onDelete: (id: number) => Promise<void> | void;
 }
 
 export function BlockUser({
   cliente,
   valor,
-  index,
+  id,
   onUpdate,
   onDelete,
 }: UserProps) {
   const [openModal, setOpenModal] = useState(false);
   const [novo_valor, setNovoValor] = useState("");
 
-  const updateValor = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const id = index;
-    const url = `api/divida/${id}/update`;
-
-    const response = await api.put(url, { novo_valor });
-    alert(response.data);
-
-    onUpdate();
+  const handleCloseModal = () => {
     setOpenModal(false);
+    setNovoValor("");
   };
-  // FAZER A FUNÇÃO PRA ATUALIZAR VALOR
-  const deleteDivida = async (e: React.FormEvent) => {
+
+  const handleSaveValor = async (e: React.FormEvent) => {
     e.preventDefault();
-    const id = index;
-    const url = `api/divida/${id}/quitar`;
+    if (!novo_valor.trim()) {
+      alert("Por favor, informe o novo valor.");
+      return;
+    }
 
-    const response = await api.delete(url);
-    alert(response.data);
-
-    onDelete(id);
+    await onUpdate(id, novo_valor);
+    handleCloseModal();
   };
+
+  const handleDeleteDivida = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await onDelete(id);
+  };
+
   return (
     <>
       <div className="infor-user">
@@ -51,34 +49,46 @@ export function BlockUser({
           <p>R${valor}</p>
         </div>
         <div className="buttons">
-          <button className="btn-edit" onClick={() => setOpenModal(true)}>
+          <button
+            className="btn btn--primary btn-edit"
+            onClick={() => setOpenModal(true)}
+          >
             Editar
           </button>
-          <button className="btn-del" onClick={deleteDivida}>
+          <button
+            className="btn btn--danger btn-del"
+            onClick={handleDeleteDivida}
+          >
             Quitar
           </button>
         </div>
       </div>
       <Modal isOpen={openModal}>
         <div className="divida-content">
-          <button id="btn-close" onClick={() => setOpenModal(false)}>
+          <button
+            id="btn-close"
+            className="btn btn--danger btn--round"
+            onClick={handleCloseModal}
+          >
             X
           </button>
           <h1>Valor: R${valor}</h1>
-          <div className="divida-values">
-            <label htmlFor="novo-valor" id="label">
+          <form className="divida-values" onSubmit={handleSaveValor}>
+            <label htmlFor="novo-valor">
               Digite o novo valor:
             </label>
             <input
               type="number"
               name="novo-valor"
               id="novo-valor"
+              value={novo_valor}
               onChange={(e) => setNovoValor(e.target.value)}
+              required
             />
-          </div>
-          <button className="btn-save" onClick={updateValor}>
-            Salvar
-          </button>
+            <button type="submit" className="btn btn--primary btn-save">
+              Salvar
+            </button>
+          </form>
         </div>
       </Modal>
     </>

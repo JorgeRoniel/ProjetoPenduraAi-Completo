@@ -1,54 +1,59 @@
 package com.ufc.apiPenduraAi.services.user.implementation;
 
 import com.ufc.apiPenduraAi.domain.user.User;
+import com.ufc.apiPenduraAi.domain.user.UserRoles;
 import com.ufc.apiPenduraAi.dtos.user.CreateUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.LoginUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.ReturnLoginDTO;
-import com.ufc.apiPenduraAi.exceptions.user.EmailOrPassNull;
-import com.ufc.apiPenduraAi.exceptions.user.NotFoundUser;
+import com.ufc.apiPenduraAi.dtos.user.ReturnUserDTO;
 import com.ufc.apiPenduraAi.repositories.user.UserRepository;
 import com.ufc.apiPenduraAi.services.token.TokenService;
 import com.ufc.apiPenduraAi.services.user.UserServices;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.beans.Encoder;
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class UserServicesImpl implements UserServices {
 
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private PasswordEncoder encoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private TokenService tokenService;
-
+    private final UserRepository repository;
+    private final PasswordEncoder encoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @Override
-    public User createUser(CreateUserDTO data) throws RuntimeException {
+    public User createUser(CreateUserDTO data) {
+        if (repository.existsByEmail(data.email())) {
+            throw new IllegalArgumentException("Email já cadastrado!");
+        }
         String pass = encoder.encode(data.senha());
-        User u = new User(data.nome(), data.email(), pass, data.role());
-        return repository.save(u);
+        User user = new User(data.nome(), data.email(), pass, UserRoles.USER);
+        return repository.save(user);
     }
 
-   @Override
+    @Override
     public ReturnLoginDTO authUser(LoginUserDTO data) {
         var emailpass = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = authenticationManager.authenticate(emailpass);
         User user = (User) auth.getPrincipal();
         String token = tokenService.createToken(user);
-        return new ReturnLoginDTO(token, user.getId(), user.getEmail(), user.getNome(), user.getRole().toString());
+        return new ReturnLoginDTO(token, user.getId(), user.getEmail(), user.getNome(), user.getRole().name());
     }
 
     @Override
-    public List<User> listAllUsers() {
-        return repository.findAll();
+    public Page<ReturnUserDTO> listAllUsers(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(user -> new ReturnUserDTO(
+                        user.getId(),
+                        user.getNome(),
+                        user.getEmail(),
+                        user.getRole().name(),
+                        user.getCreatedAt()
+                ));
     }
 }

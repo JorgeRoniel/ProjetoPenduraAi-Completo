@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./login.css";
 import { useAuth } from "../../utils/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -9,8 +9,13 @@ export function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const HandleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email.trim() || !password.trim()) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
 
     const success = await login(email, password);
     if (success) {
@@ -22,39 +27,45 @@ export function Login() {
 
   return (
     <>
-      <div className="container-login">
+      <div className="container-auth">
         <h1>Bem vindo ao Pendura Aí</h1>
-        <div className="login-window">
+        <div className="auth-window">
           <h2>Faça o Login Para Entrar!</h2>
-          <form action="" onSubmit={HandleSubmit}>
-            <label htmlFor="email" className="labels-login">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email" className="labels-auth">
               Email:
             </label>
             <input
-              type="text"
+              type="email"
               name="email"
-              className="input-login"
+              id="email"
+              className="input-auth"
               placeholder="Digite seu email..."
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
 
-            <label htmlFor="pass" className="labels-login">
+            <label htmlFor="pass" className="labels-auth">
               Senha:
             </label>
             <input
               type="password"
               name="pass"
-              className="input-login"
+              id="pass"
+              className="input-auth"
               placeholder="Digite sua senha..."
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
 
-            <button type="submit" className="btn-login">
+            <button type="submit" className="btn btn--primary btn-auth">
               Entrar
             </button>
           </form>
           <p>
-            Não possui uma conta? <a href="/register">Cadastre-se aqui</a>!
+            Não possui uma conta? <Link to="/register">Cadastre-se aqui</Link>!
           </p>
         </div>
 

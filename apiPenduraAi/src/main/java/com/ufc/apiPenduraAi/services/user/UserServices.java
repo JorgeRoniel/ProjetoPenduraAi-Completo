@@ -4,12 +4,13 @@ import com.ufc.apiPenduraAi.domain.user.User;
 import com.ufc.apiPenduraAi.dtos.user.CreateUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.LoginUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.ReturnLoginDTO;
-
-import java.util.List;
+import com.ufc.apiPenduraAi.dtos.user.ReturnUserDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserServices {
 
     User createUser(CreateUserDTO data);
     ReturnLoginDTO authUser(LoginUserDTO data);
-    List<User> listAllUsers();
+    Page<ReturnUserDTO> listAllUsers(Pageable pageable);
 }

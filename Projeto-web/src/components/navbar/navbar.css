@@ -14,14 +14,9 @@
 }
 
 .btn-navbar {
-  background-color: white;
-  color: black;
   font-size: 1.6rem;
-
   height: 50px;
   width: 130px;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
 @media (max-width: 698px) {

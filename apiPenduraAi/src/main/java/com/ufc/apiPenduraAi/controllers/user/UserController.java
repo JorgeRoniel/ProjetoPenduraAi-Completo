@@ -1,41 +1,41 @@
 package com.ufc.apiPenduraAi.controllers.user;
 
-import com.ufc.apiPenduraAi.domain.user.User;
 import com.ufc.apiPenduraAi.dtos.user.CreateUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.LoginUserDTO;
 import com.ufc.apiPenduraAi.dtos.user.ReturnLoginDTO;
+import com.ufc.apiPenduraAi.dtos.user.ReturnUserDTO;
 import com.ufc.apiPenduraAi.services.user.UserServices;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserServices services;
+    private final UserServices services;
 
     @PostMapping("/register")
-    public ResponseEntity createUser(@RequestBody CreateUserDTO data){
-        User user = services.createUser(data);
-        if(user != null){
-            return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado!");
-        }
-        return ResponseEntity.internalServerError().body("Erro ao criar user");
+    public ResponseEntity<String> createUser(@RequestBody @Valid CreateUserDTO data) {
+        services.createUser(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso!");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ReturnLoginDTO> login(@RequestBody LoginUserDTO data){
+    public ResponseEntity<ReturnLoginDTO> login(@RequestBody @Valid LoginUserDTO data) {
         return ResponseEntity.status(HttpStatus.OK).body(services.authUser(data));
-
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> listUsers(){
-        return ResponseEntity.ok(services.listAllUsers());
+    public ResponseEntity<Page<ReturnUserDTO>> listUsers(
+            @PageableDefault(size = 10, sort = "nome") Pageable pageable
+    ) {
+        return ResponseEntity.ok(services.listAllUsers(pageable));
     }
 }

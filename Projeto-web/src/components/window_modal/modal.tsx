@@ -1,4 +1,4 @@
-import "../../pages/home/home.css";
+import "./modal.css";
 interface ModalProps {
   isOpen: boolean;
   children: React.ReactNode;

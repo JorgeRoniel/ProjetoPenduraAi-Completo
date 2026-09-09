@@ -5,49 +5,49 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.ufc.apiPenduraAi.domain.user.User;
+import com.ufc.apiPenduraAi.exceptions.token.InvalidTokenException;
 import com.ufc.apiPenduraAi.services.token.TokenService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    private final String secret = "T3ST3";
+    @Value("${jwt.secret}")
+    private String secret;
 
     @Override
     public String createToken(User user) {
-        try{
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token  = JWT.create()
+            return JWT.create()
                     .withIssuer("api_pendura_ai")
                     .withSubject(user.getEmail())
                     .withExpiresAt(generateExpirateTime())
                     .sign(algorithm);
-
-            return token;
-        }catch (JWTCreationException e){
+        } catch (JWTCreationException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
     public String verifyToken(String token) {
-        try{
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
                     .withIssuer("api_pendura_ai")
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException e){
-            throw new RuntimeException(e.getMessage());
+        } catch (JWTVerificationException e) {
+            throw new InvalidTokenException("Token inválido ou expirado");
         }
     }
 
-    private Instant generateExpirateTime(){
-        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
+    private Instant generateExpirateTime() {
+        return Instant.now().plus(1, ChronoUnit.HOURS);
     }
 }

@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # Compila o projeto para produção
-RUN npx vite build
+RUN npm run build
 
 # Usa uma imagem leve do Nginx para servir os arquivos
 FROM nginx:alpine

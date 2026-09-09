@@ -1,26 +1,27 @@
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17-alpine
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT}:5432"
     environment:
-      - POSTGRES_DB=appPAdb
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Password123#@!
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
 
   pendura-ai-api:
-    image: jorgeroniel07/pendura-ai-server:0.0.3
+    image: jorgeroniel07/pendura-ai-server:0.0.6
     container_name: pendura-ai-api
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/appPAdb
-      - SPRING_DATASOURCE_USER=postgres
-      - SPRING_DATASOURCE_PASSWORD=Password123#@!
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - postgres
     networks:
@@ -28,10 +29,10 @@ services:
     restart: on-failure
 
   pendura-ai-client:
-    image: jorgeroniel07/pendura-ai-client:0.0.3
+    image: jorgeroniel07/pendura-ai-client:0.0.4
     container_name: pendura-ai-cliente
     ports:
-      - "80:80"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - pendura-ai-api
     networks:

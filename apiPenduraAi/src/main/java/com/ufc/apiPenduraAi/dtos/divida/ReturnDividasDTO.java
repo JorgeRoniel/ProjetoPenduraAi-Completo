@@ -1,4 +1,12 @@
 package com.ufc.apiPenduraAi.dtos.divida;
 
-public record ReturnDividasDTO(int id, String cliente, String valor) {
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public record ReturnDividasDTO(
+        Long id,
+        String cliente,
+        BigDecimal valor,
+        LocalDateTime createdAt
+) {
 }

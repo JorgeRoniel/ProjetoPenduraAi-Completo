@@ -24,7 +24,7 @@ interface ReturnLogin {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<Boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
 }
@@ -36,14 +36,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    try {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch {
+      localStorage.removeItem("user");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
-  const login = async (email: string, senha: string): Promise<Boolean> => {
+  const login = async (email: string, senha: string): Promise<boolean> => {
     try {
       const res = await api.post<ReturnLogin>("api/user/login", {
         email,

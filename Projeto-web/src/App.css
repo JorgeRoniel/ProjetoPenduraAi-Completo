@@ -6,7 +6,7 @@
 }
 
 #root {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 
@@ -17,3 +17,51 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+/* ============================================================
+   Design System: Botões Base (R04)
+   ============================================================ */
+.btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color 0.2s, opacity 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn--primary {
+  background-color: #ff8d23;
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background-color: rgb(187, 127, 15);
+}
+
+.btn--danger {
+  background-color: #f82525;
+  color: #ffffff;
+}
+
+.btn--danger:hover {
+  background-color: #800202;
+}
+
+.btn--light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.btn--round {
+  border-radius: 50px;
+}
+

@@ -1,4 +1,4 @@
-.container {
+.home-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +25,7 @@
 }
 
 .title-h2 {
-  font-size: 3.1rem;
+  font-size: 2.7rem;
   font-weight: 100;
 }
 .input-div {
@@ -33,18 +33,9 @@
   gap: 10px;
 }
 .input-div button {
-  background-color: #ff8d23;
-  color: white;
   font-size: 1.2rem;
-
   height: 50px;
   width: 100px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.input-div button:hover {
-  background-color: rgb(187, 127, 15);
 }
 #pesquisa {
   height: 50px;
@@ -52,13 +43,14 @@
   border: 1px solid black;
   padding: 15px;
   font-size: 1.6rem;
-  width: 90%;
+  width: 50%;
 }
 .scrool-area {
   max-height: 400px;
   overflow-y: auto;
   margin-top: 20px;
   padding-right: 10px;
+  width: 90%;
 }
 .clients-list {
   display: flex;
@@ -69,35 +61,13 @@
 .btn-add {
   height: 90px;
   width: 90px;
-  color: white;
-  background-color: #ff8d23;
-  border-radius: 50px;
-  cursor: pointer;
   font-size: 2.6rem;
-  font-weight: bold;
   box-shadow: 1px 1px 5px black;
 
   margin-left: 85%;
   margin-top: 2%;
-
-  transition-duration: 0.2s;
 }
 
-.btn-add:hover {
-  background-color: rgb(187, 127, 15);
-}
-
-.janela {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #03030360;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .form-divida {
   width: 50%;
@@ -124,6 +94,14 @@
   width: 900px;
 }
 
+.form-divida form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .label {
   font-size: 1.6rem;
   display: block;
@@ -147,33 +125,18 @@
 .btn-form {
   height: 50px;
   width: 100px;
-  color: white;
-  background-color: #ff8d23;
-  cursor: pointer;
   font-size: 1.6rem;
-  font-weight: bold;
   box-shadow: 1px 1px 5px black;
 }
 
 .close-btn {
   height: 70px;
   width: 70px;
-  color: white;
-  background-color: red;
-  cursor: pointer;
   font-size: 1.6rem;
-  font-weight: bold;
-  border-radius: 50px;
   padding: 1px;
 
   margin-left: 85%;
   margin-bottom: 100px;
-
-  transition: 0.2s;
-}
-
-.close-btn:hover {
-  background-color: #800202;
 }
 @media (max-width: 1330px) {
   .form-divida div {
@@ -228,7 +191,7 @@
 }
 
 @media (max-width: 488px) {
-  .container {
+  .home-container {
     max-width: 400px;
     width: 100%;
   }

@@ -7,8 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name="dividas_tb")
+@Table(name = "dividas_tb")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,17 +20,38 @@ public class Divida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column
-    private String cliente;
-    @Column
-    private String valor;
-    @Column
-    private int user_id;
+    private Long id;
 
-    public Divida(String cliente, String valor, int user_id) {
+    @Column(nullable = false)
+    private String cliente;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public Divida(String cliente, BigDecimal valor, User user) {
         this.cliente = cliente;
         this.valor = valor;
-        this.user_id = user_id;
+        this.user = user;
     }
 }

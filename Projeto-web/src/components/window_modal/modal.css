@@ -1,14 +1,12 @@
-.container {
+.janela {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #03030360;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 30px;
-
-  min-height: 700px;
-  min-width: 700px;
-  height: 50vh;
-  width: 50vw;
-  margin-left: 25%;
-  margin-right: 25%;
+  z-index: 999;
 }
