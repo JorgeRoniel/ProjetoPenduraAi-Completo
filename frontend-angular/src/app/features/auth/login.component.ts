@@ -5,10 +5,11 @@ import { finalize } from 'rxjs';
 import { AuthLayoutComponent } from './auth-layout.component';
 import { getAuthErrorMessage } from './auth-feedback';
 import { AuthService } from '../../core/services/auth.service';
+import { FeedbackComponent } from '../../shared/feedback.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, AuthLayoutComponent],
+  imports: [ReactiveFormsModule, AuthLayoutComponent, FeedbackComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
   styleUrl: './auth-form.css'

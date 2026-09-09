@@ -24,10 +24,10 @@
     </section>
 
     @if (successMessage()) {
-      <p class="page-feedback page-feedback--success" role="status">{{ successMessage() }}</p>
+      <app-feedback [message]="successMessage()" tone="success" />
     }
     @if (errorMessage()) {
-      <p class="page-feedback page-feedback--error" role="alert">{{ errorMessage() }}</p>
+      <app-feedback [message]="errorMessage()" tone="error" />
     }
 
     <section class="debt-list" aria-live="polite" aria-label="Lista de dívidas">

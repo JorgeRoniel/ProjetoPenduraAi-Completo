@@ -8,6 +8,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { CreateDebtPayload, Debt } from '../../core/models/debt.model';
 import { DebtService } from '../../core/services/debt.service';
 import { AppModalComponent } from '../../shared/app-modal.component';
+import { FeedbackComponent } from '../../shared/feedback.component';
 import { DebtCardComponent } from './debt-card.component';
 import { NavbarComponent } from '../shell/navbar.component';
 
@@ -15,7 +16,7 @@ type ModalName = 'create' | 'edit' | 'settle' | null;
 
 @Component({
   selector: 'app-home',
-  imports: [CurrencyPipe, ReactiveFormsModule, AppModalComponent, DebtCardComponent, NavbarComponent],
+  imports: [CurrencyPipe, ReactiveFormsModule, AppModalComponent, FeedbackComponent, DebtCardComponent, NavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

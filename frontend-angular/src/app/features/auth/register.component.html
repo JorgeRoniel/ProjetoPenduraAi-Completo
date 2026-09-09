@@ -7,10 +7,10 @@
 >
   <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
     @if (errorMessage()) {
-      <p class="form-feedback form-feedback--error" role="alert">{{ errorMessage() }}</p>
+      <app-feedback [message]="errorMessage()" tone="error" />
     }
     @if (successMessage()) {
-      <p class="form-feedback form-feedback--success" role="status">{{ successMessage() }}</p>
+      <app-feedback [message]="successMessage()" tone="success" />
     }
 
     <div class="field">

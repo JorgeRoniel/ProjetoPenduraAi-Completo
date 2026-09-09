@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, effect, HostListener, input, output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -11,9 +11,45 @@ export class AppModalComponent {
   readonly title = input.required<string>();
   readonly labelledBy = input.required<string>();
   readonly closed = output<void>();
+  @ViewChild('modalElement') private modalElement?: ElementRef<HTMLElement>;
+  @ViewChild('closeButton') private closeButton?: ElementRef<HTMLButtonElement>;
+  private previouslyFocused: HTMLElement | null = null;
 
-  @HostListener('document:keydown.escape')
-  handleEscape(): void {
-    if (this.open()) this.closed.emit();
+  constructor() {
+    effect(() => {
+      if (this.open()) {
+        this.previouslyFocused = document.activeElement as HTMLElement | null;
+        setTimeout(() => this.closeButton?.nativeElement.focus());
+      } else if (this.previouslyFocused?.isConnected) {
+        this.previouslyFocused.focus();
+        this.previouslyFocused = null;
+      }
+    });
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeydown(event: KeyboardEvent): void {
+    if (!this.open()) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closed.emit();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const focusable = Array.from(this.modalElement?.nativeElement.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    ) ?? []);
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 }
