@@ -1,0 +1,13 @@
+<header class="navbar">
+  <a class="brand" routerLink="/" aria-label="Pendura Aí - início">
+    <span class="brand-mark" aria-hidden="true">P</span>
+    <span class="brand-name">Pendura <span>Aí</span></span>
+  </a>
+
+  <div class="navbar-actions">
+    @if (user(); as currentUser) {
+      <span class="user-greeting">Olá, <strong>{{ currentUser.nome }}</strong></span>
+    }
+    <button class="logout-button" type="button" (click)="logoutRequested.emit()">Sair</button>
+  </div>
+</header>

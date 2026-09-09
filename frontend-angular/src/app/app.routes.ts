@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/auth/login.component';
 import { RegisterComponent } from './features/auth/register.component';
-import { RoutePlaceholderComponent } from './shared/route-placeholder.component';
+import { HomeComponent } from './features/debts/home.component';
 
 export const routes: Routes = [
   {
@@ -20,7 +20,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
-    component: RoutePlaceholderComponent,
+    component: HomeComponent,
     data: { label: 'Área principal' }
   },
   { path: '**', redirectTo: '' }
