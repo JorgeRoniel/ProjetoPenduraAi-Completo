@@ -70,6 +70,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
+            "codeCoverage": false,
             "polyfills": [
               "zone.js",
               "zone.js/testing"

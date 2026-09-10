@@ -1,59 +1,75 @@
-# FrontendAngular
+# Pendura Aí — frontend Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.2.
+Frontend Angular standalone do Pendura Aí. Esta aplicação está sendo desenvolvida em paralelo ao frontend React, que permanece como a aplicação oficial do Docker até uma etapa posterior de integração.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js 20 ou superior.
+- npm.
+- API Spring Boot e banco de dados em execução para testar os fluxos autenticados.
 
-```bash
-ng serve
-```
+## Executar localmente
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Na raiz do repositório, inicie a infraestrutura da API:
 
 ```bash
-ng generate component component-name
+docker compose up
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Em outro terminal, execute o Angular:
 
 ```bash
-ng generate --help
+cd frontend-angular
+npm install
+npm start
 ```
 
-## Building
+A aplicação ficará disponível em `http://localhost:4200` e usará a API em `http://localhost:8080`.
 
-To build the project run:
+Para alterar a URL da API em desenvolvimento, edite `src/environments/environment.ts`. Os caminhos de usuário e dívidas ficam centralizados em `src/app/core/api/api-endpoints.ts`.
+
+## Funcionalidades disponíveis
+
+- Login e cadastro com Reactive Forms e validações.
+- Persistência de sessão com token JWT e usuário no `localStorage`.
+- Guarda de rotas públicas e privada.
+- Pesquisa paginada de dívidas.
+- Cadastro, atualização e quitação de dívidas.
+- Feedbacks de carregamento, sucesso, erro e lista vazia.
+- Layout responsivo e modais acessíveis.
+
+## Validação
+
+Build de produção:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Testes unitários:
 
 ```bash
-ng test
+npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Os testes cobrem autenticação/sessão, interceptor JWT, guards, serviços HTTP, validações dos formulários e renderização da área de dívidas. É necessário ter Chrome ou Chromium disponível para o launcher `ChromeHeadless`; em ambientes sem navegador, a etapa de compilação dos testes pode ser conferida com:
 
 ```bash
-ng e2e
+npx ng test --watch=false --browsers=ChromeHeadless --code-coverage=false
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Arquitetura resumida
 
-## Additional Resources
+- `src/app/core`: modelos, endpoints, serviços, interceptor e guards.
+- `src/app/features/auth`: layout, login e cadastro.
+- `src/app/features/debts`: área principal, pesquisa e card de dívida.
+- `src/app/features/shell`: navbar autenticada.
+- `src/app/shared`: modal e feedback reutilizáveis.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+A aplicação usa standalone components, Signals para estado local/sessão, Reactive Forms e o control flow moderno do Angular (`@if`, `@for` e `@empty`).
+
+## Limitações desta etapa
+
+- O Angular ainda não substitui o React no Docker/nginx.
+- A API não foi alterada; seus contratos e respostas continuam sendo a fonte de verdade.
+- A integração definitiva de execução e a remoção do React ficam para uma etapa posterior.
